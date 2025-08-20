@@ -1,0 +1,12 @@
+/* home.css */
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+/* when section is visible */
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
