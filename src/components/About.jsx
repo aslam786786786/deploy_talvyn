@@ -1,67 +1,15 @@
 import { motion } from 'framer-motion';
-import { Shield, Target, Users, Lightbulb, Award, TrendingUp, Globe, Heart } from 'lucide-react';
+import { Shield, Target, Users, Lightbulb } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { scrollToElement } from '../utils';
 import "../styles/about.css";
 
 const About = () => {
-    const coreValues = [
-        {
-            icon: Shield,
-            title: 'Security First',
-            description: 'We prioritize the security and privacy of our clients\' data above all else, implementing industry-leading security measures.'
-        },
-        {
-            icon: Lightbulb,
-            title: 'Innovation',
-            description: 'We continuously push the boundaries of technology to deliver cutting-edge solutions that drive business growth.'
-        },
-        {
-            icon: Users,
-            title: 'Customer Success',
-            description: 'Our clients\' success is our success. We are committed to providing exceptional service and support at every step.'
-        },
-        {
-            icon: Heart,
-            title: 'Integrity',
-            description: 'We conduct business with honesty, transparency, and ethical practices, building trust with all our stakeholders.'
-        },
-        {
-            icon: Target,
-            title: 'Excellence',
-            description: 'We strive for excellence in everything we do, from our technology solutions to our customer relationships.'
-        },
-        {
-            icon: Globe,
-            title: 'Global Impact',
-            description: 'We aim to make a positive impact on businesses worldwide through our innovative technology solutions.'
-        }
-    ];
+    const navigate = useNavigate();
 
-    const achievements = [
-        {
-            icon: Users,
-            number: '500+',
-            label: 'Happy Clients',
-            description: 'Businesses trust us with their technology needs'
-        },
-        {
-            icon: Award,
-            number: '50+',
-            label: 'Projects Delivered',
-            description: 'Successfully completed projects across industries'
-        },
-        {
-            icon: TrendingUp,
-            number: '99%',
-            label: 'Client Satisfaction',
-            description: 'Consistently high satisfaction rates'
-        },
-        {
-            icon: Shield,
-            number: '24/7',
-            label: 'Security Monitoring',
-            description: 'Round-the-clock protection for your systems'
-        }
-    ];
+    const handleLearnMoreAboutUs = () => {
+        navigate('/learn-more-about-us');
+    };
 
     return (
         <div className="about-section">
@@ -140,84 +88,6 @@ const About = () => {
                     </motion.div>
                 </div>
 
-                {/* Core Values */}
-                <motion.div 
-                    className="core-values-section"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="section-header">
-                        <h2 className="section-title">Our Core Values</h2>
-                        <p className="section-subtitle">
-                            The principles that guide everything we do and shape our company culture.
-                        </p>
-                    </div>
-
-                    <div className="values-grid">
-                        {coreValues.map((value, index) => {
-                            const Icon = value.icon;
-                            return (
-                                <motion.div
-                                    key={index}
-                                    className="value-card"
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                                    viewport={{ once: true }}
-                                >
-                                    <div className="value-icon">
-                                        <Icon className="icon" />
-                                    </div>
-                                    <h4 className="value-title">{value.title}</h4>
-                                    <p className="value-description">{value.description}</p>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </motion.div>
-
-                {/* Achievements */}
-                <motion.div 
-                    className="achievements-section"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.7 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="section-header">
-                        <h2 className="section-title">Our Achievements</h2>
-                        <p className="section-subtitle">
-                            Numbers that reflect our commitment to excellence and client success.
-                        </p>
-                    </div>
-
-                    <div className="achievements-grid">
-                        {achievements.map((achievement, index) => {
-                            const Icon = achievement.icon;
-                            return (
-                                <motion.div
-                                    key={index}
-                                    className="achievement-card"
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                                    viewport={{ once: true }}
-                                >
-                                    <div className="achievement-icon">
-                                        <Icon className="icon" />
-                                    </div>
-                                    <div className="achievement-content">
-                                        <h3 className="achievement-number">{achievement.number}</h3>
-                                        <h4 className="achievement-label">{achievement.label}</h4>
-                                        <p className="achievement-description">{achievement.description}</p>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </motion.div>
 
                 {/* Call to Action */}
                 <motion.div
@@ -234,11 +104,11 @@ const About = () => {
                             Let's discuss how we can help your business achieve its technology goals.
                         </p>
                         <div className="cta-buttons">
-                            <button className="primary-cta-btn">
+                            <button className="primary-cta-btn" onClick={() => scrollToElement('contact')}>
                                 Get Started Today
                                 <Target className="btn-icon" />
                             </button>
-                            <button className="secondary-cta-btn">
+                            <button className="secondary-cta-btn" onClick={handleLearnMoreAboutUs}>
                                 Learn More About Us
                                 <Users className="btn-icon" />
                             </button>

@@ -1,81 +1,94 @@
 // API Service Layer
-// This file contains functions for making API calls
+// Backend communication for Talvyn Technologies
 
 /**
  * Base API configuration
  */
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 /**
- * Generic API request handler
- * @param {string} endpoint - API endpoint
- * @param {Object} options - Fetch options
- * @returns {Promise} API response
+ * Submit job application with resume file
+ * @param {Object} applicationData - Job application form data
+ * @param {File} resumeFile - Resume file
+ * @returns {Promise} Submission response
  */
-const apiRequest = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    ...options
-  };
-
+export const submitJobApplication = async (applicationData, resumeFile) => {
   try {
-    const response = await fetch(url, config);
+    const formData = new FormData();
+    
+    // Add all form fields
+    Object.keys(applicationData).forEach(key => {
+      formData.append(key, applicationData[key]);
+    });
+    
+    // Add resume file
+    formData.append('resume', resumeFile);
+    
+    const response = await fetch(`${API_BASE_URL}/api/job-application`, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    const result = await response.json();
     
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      throw new Error(result.detail || 'Failed to submit application');
     }
-
-    return await response.json();
+    
+    return result;
   } catch (error) {
-    console.error('API Request failed:', error);
+    console.error('Error submitting job application:', error);
     throw error;
   }
 };
 
 /**
- * Contact form submission
- * @param {Object} formData - Contact form data
+ * Submit contact form
+ * @param {Object} contactData - Contact form data
  * @returns {Promise} Submission response
  */
-export const submitContactForm = async (formData) => {
-  return apiRequest('/api/contact', {
-    method: 'POST',
-    body: JSON.stringify(formData)
-  });
+export const submitContactForm = async (contactData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(contactData),
+    });
+    
+    const result = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(result.detail || 'Failed to submit contact form');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error submitting contact form:', error);
+    throw error;
+  }
 };
 
 /**
- * Job application submission
- * @param {Object} applicationData - Job application data
- * @returns {Promise} Submission response
+ * Health check endpoint
+ * @returns {Promise} Health status
  */
-export const submitJobApplication = async (applicationData) => {
-  return apiRequest('/api/jobs/apply', {
-    method: 'POST',
-    body: JSON.stringify(applicationData)
-  });
+export const healthCheck = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/health`);
+    return await response.json();
+  } catch (error) {
+    console.error('Health check failed:', error);
+    throw error;
+  }
 };
 
-/**
- * Get job listings
- * @returns {Promise} Job listings
- */
-export const getJobListings = async () => {
-  return apiRequest('/api/jobs');
+// Default export for backwards compatibility
+const ApiService = {
+  submitJobApplication,
+  submitContactForm,
+  healthCheck
 };
 
-/**
- * Newsletter subscription
- * @param {string} email - Email address
- * @returns {Promise} Subscription response
- */
-export const subscribeNewsletter = async (email) => {
-  return apiRequest('/api/newsletter/subscribe', {
-    method: 'POST',
-    body: JSON.stringify({ email })
-  });
-};
+export default ApiService;

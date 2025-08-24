@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Instagram } from 'lucide-react';
 import '../styles/footer.css';
 
 const Footer = () => {
@@ -94,10 +94,11 @@ const Footer = () => {
             </p>
             <div className="social-links">
               <a href="#" className="social-link">
-                <Facebook className="social-icon" />
-              </a>
-              <a href="#" className="social-link">
-                <Twitter className="social-icon" />
+                <img 
+                  src="https://cdn-icons-png.flaticon.com/128/11823/11823292.png" 
+                  alt="X (Twitter)" 
+                  className="social-icon-img" 
+                />
               </a>
               <a href="#" className="social-link">
                 <Linkedin className="social-icon" />

@@ -1,8 +1,24 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Globe, Cpu, ArrowRight, CheckCircle } from 'lucide-react';
+import { scrollToElement } from '../utils';
+import ServiceModal from './ServiceModal';
 import '../styles/services.css';
 
 export default function Services() {
+    const [selectedService, setSelectedService] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleLearnMore = (service) => {
+        setSelectedService(service);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedService(null);
+    };
+
     const services = [
         {
             icon: Shield,
@@ -44,8 +60,8 @@ export default function Services() {
         },
         {
             icon: Cpu,
-            title: 'Custom Software Development',
-            description: 'Tailored software solutions designed to meet your unique business requirements and goals.',
+            title: 'ERP Tool Development',
+            description: 'Enterprise Resource Planning solutions designed to streamline your business operations and boost efficiency.',
             highlights: [
                 'Enterprise Applications',
                 'Mobile Development',
@@ -116,18 +132,11 @@ export default function Services() {
                                     </div>
                                 </div>
 
-                                <div className="service-features">
-                                    <h4>What We Offer:</h4>
-                                    <div className="features-grid">
-                                        {service.features.map((feature, idx) => (
-                                            <div key={idx} className="feature-item">
-                                                • {feature}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
 
-                                <button className="service-cta-btn">
+                                <button 
+                                    className="service-cta-btn"
+                                    onClick={() => handleLearnMore(service)}
+                                >
                                     Learn More
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
@@ -149,7 +158,7 @@ export default function Services() {
                             Our experienced team is ready to help you leverage technology to achieve your business goals. 
                             Contact us today to discuss your project requirements.
                         </p>
-                        <button className="get-started-btn">
+                        <button className="get-started-btn" onClick={() => scrollToElement('contact')}>
                             Get Started Today
                             <ArrowRight className="w-5 h-5" />
                         </button>
@@ -165,6 +174,13 @@ export default function Services() {
                     <p className="scroll-text">Scroll down to explore more</p>
                 </div>
             </div>
+
+            {/* Service Modal */}
+            <ServiceModal 
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                service={selectedService}
+            />
         </div>
     );
 }

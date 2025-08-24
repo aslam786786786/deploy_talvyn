@@ -110,6 +110,18 @@
   box-shadow: 0 0 0 2px rgba(0, 112, 74, 0.2);
 }
 
+/* Active Navigation Link */
+.nav-link-active {
+  color: #ffffff !important;
+  background: #00704A !important;
+  box-shadow: 0 2px 8px rgba(0, 112, 74, 0.3);
+}
+
+.nav-link-active::before {
+  width: 32px !important;
+  background: linear-gradient(135deg, #ffffff, #e2e8f0) !important;
+}
+
 /* Contact Button */
 .navbar-contact {
   display: flex;
@@ -254,6 +266,18 @@
 
 .mobile-nav-link:hover::before {
   width: 4px;
+}
+
+/* Active Mobile Navigation Link */
+.mobile-nav-link-active {
+  color: #00704A !important;
+  background: rgba(0, 112, 74, 0.1) !important;
+  border-left: 3px solid #00704A !important;
+}
+
+.mobile-nav-link-active::before {
+  width: 4px !important;
+  background: #00704A !important;
 }
 
 .mobile-contact-btn {

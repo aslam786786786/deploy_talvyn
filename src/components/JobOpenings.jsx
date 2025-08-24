@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, MapPin, Clock, DollarSign, Send, FileText, ArrowLeft, X, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { submitJobApplication } from '../services/api';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import "../styles/careers.css";
@@ -13,15 +14,21 @@ const JobOpenings = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
   const [applicationData, setApplicationData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     phone: '',
+    position: '',
     experience: '',
     currentCompany: '',
+    expectedSalary: '',
+    noticePeriod: '',
+    skills: '',
     coverLetter: '',
     resume: null
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const jobOpenings = [
     {
@@ -118,21 +125,56 @@ const JobOpenings = () => {
     }
   ];
 
-  const handleApplicationSubmit = (e) => {
+  const handleApplicationSubmit = async (e) => {
     e.preventDefault();
-    alert(`Application submitted for ${selectedJob.title}! We'll be in touch soon.`);
-    setApplicationData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      experience: '',
-      currentCompany: '',
-      coverLetter: '',
-      resume: null
-    });
-    setShowApplication(false);
-    setSelectedJob(null);
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      // Validate required fields
+      if (!applicationData.name || !applicationData.email || !applicationData.phone || !applicationData.resume) {
+        throw new Error('Please fill all required fields and upload your resume');
+      }
+
+      // Prepare data with position from selected job
+      const formData = {
+        ...applicationData,
+        position: selectedJob.title
+      };
+
+      // Submit to backend
+      await submitJobApplication(formData, applicationData.resume);
+      
+      setSubmitMessage('Application submitted successfully! You will receive a confirmation email shortly.');
+      
+      // Reset form after successful submission
+      setApplicationData({
+        name: '',
+        email: '',
+        phone: '',
+        position: '',
+        experience: '',
+        currentCompany: '',
+        expectedSalary: '',
+        noticePeriod: '',
+        skills: '',
+        coverLetter: '',
+        resume: null
+      });
+      
+      // Close form after 2 seconds
+      setTimeout(() => {
+        setShowApplication(false);
+        setSelectedJob(null);
+        setSubmitMessage('');
+      }, 2000);
+
+    } catch (error) {
+      console.error('Application submission error:', error);
+      setSubmitMessage(`Error: ${error.message || 'Failed to submit application. Please try again.'}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleJobApplication = (job) => {
@@ -287,7 +329,7 @@ const JobOpenings = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <p>Don't see a position that fits? We're always looking for talented individuals.</p>
-          <button className="send-resume-button">Send Us Your Resume</button>
+          <p>Contact us at <a href="mailto:hr@talvyntechnologies.com" className="footer-email-link">hr@talvyntechnologies.com</a> to discuss other opportunities.</p>
         </motion.div>
       </div>
 
@@ -343,25 +385,14 @@ const JobOpenings = () => {
               <div className="application-form">
                 <h3>Apply for This Position</h3>
                 <form onSubmit={handleApplicationSubmit}>
-                  <div className="form-row">
-                    <div className="form-field">
-                      <label>First Name *</label>
-                      <input
-                        type="text"
-                        value={applicationData.firstName}
-                        onChange={(e) => setApplicationData({...applicationData, firstName: e.target.value})}
-                        required
-                      />
-                    </div>
-                    <div className="form-field">
-                      <label>Last Name *</label>
-                      <input
-                        type="text"
-                        value={applicationData.lastName}
-                        onChange={(e) => setApplicationData({...applicationData, lastName: e.target.value})}
-                        required
-                      />
-                    </div>
+                  <div className="form-field">
+                    <label>Full Name *</label>
+                    <input
+                      type="text"
+                      value={applicationData.name}
+                      onChange={(e) => setApplicationData({...applicationData, name: e.target.value})}
+                      required
+                    />
                   </div>
 
                   <div className="form-field">
@@ -384,21 +415,54 @@ const JobOpenings = () => {
                     />
                   </div>
 
-                  <div className="form-field">
-                    <label>Years of Experience</label>
-                    <input
-                      type="text"
-                      value={applicationData.experience}
-                      onChange={(e) => setApplicationData({...applicationData, experience: e.target.value})}
-                    />
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label>Years of Experience</label>
+                      <input
+                        type="text"
+                        value={applicationData.experience}
+                        onChange={(e) => setApplicationData({...applicationData, experience: e.target.value})}
+                        placeholder="e.g., 3 years"
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Current Company</label>
+                      <input
+                        type="text"
+                        value={applicationData.currentCompany}
+                        onChange={(e) => setApplicationData({...applicationData, currentCompany: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-field">
+                      <label>Expected Salary</label>
+                      <input
+                        type="text"
+                        value={applicationData.expectedSalary}
+                        onChange={(e) => setApplicationData({...applicationData, expectedSalary: e.target.value})}
+                        placeholder="e.g., ₹8-10 LPA"
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Notice Period</label>
+                      <input
+                        type="text"
+                        value={applicationData.noticePeriod}
+                        onChange={(e) => setApplicationData({...applicationData, noticePeriod: e.target.value})}
+                        placeholder="e.g., 30 days, Immediate"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-field">
-                    <label>Current Company</label>
-                    <input
-                      type="text"
-                      value={applicationData.currentCompany}
-                      onChange={(e) => setApplicationData({...applicationData, currentCompany: e.target.value})}
+                    <label>Key Skills</label>
+                    <textarea
+                      value={applicationData.skills}
+                      onChange={(e) => setApplicationData({...applicationData, skills: e.target.value})}
+                      placeholder="List your key technical skills, separated by commas..."
+                      rows="3"
                     />
                   </div>
 
@@ -415,16 +479,32 @@ const JobOpenings = () => {
                   <div className="form-field">
                     <label>Resume/CV *</label>
                     <div className="file-upload">
-                      <FileText className="w-8 h-8" />
-                      <p>Click to upload or drag and drop</p>
-                      <span>PDF, DOC, DOCX (max 5MB)</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={(e) => setApplicationData({...applicationData, resume: e.target.files[0]})}
+                        required
+                        style={{ display: 'none' }}
+                        id="resume-upload"
+                      />
+                      <label htmlFor="resume-upload" className="file-upload-label">
+                        <FileText className="w-8 h-8" />
+                        <p>{applicationData.resume ? applicationData.resume.name : 'Click to upload or drag and drop'}</p>
+                        <span>PDF, DOC, DOCX (max 5MB)</span>
+                      </label>
                     </div>
                   </div>
 
-                  <button type="submit" className="submit-application">
+                  <button type="submit" className="submit-application" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
-                    Submit Application
+                    {isSubmitting ? 'Submitting...' : 'Submit Application'}
                   </button>
+
+                  {submitMessage && (
+                    <div className={`submit-message ${submitMessage.includes('Error') ? 'error' : 'success'}`}>
+                      {submitMessage}
+                    </div>
+                  )}
 
                   <p className="privacy-notice">
                     By submitting this application, you agree to our privacy policy and terms of service.

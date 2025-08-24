@@ -5,13 +5,18 @@ import heroicon2 from '../assets/images/icons/heroicon2.png';
 import heroicon3 from '../assets/images/icons/heroicon3.png';
 import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
+import { scrollToElement } from '../utils';
+
 const Hero=()=>{
+    const handleJoinClick = () => {
+        scrollToElement('contact');
+    };
     return (
         <div className="hero-section text-center">
         <div className="hero-content">
             <h1>Empowering <span className="highlight">Innovation</span> with Software Solution</h1>
             <p>Talvyn is your partner for custom web development, advanced cybersecurity, and scalable software solutions — built to empower your digital future. We builds secure, scalable software and web solutions tailored for startups and enterprises alike.</p>
-            <Button variant="success">Join with Talvyn <BsArrowUpRightCircleFill style={{marginLeft:"10",fontSize:"25"}}/></Button>
+            <Button variant="success" onClick={handleJoinClick}>Join with Talvyn <BsArrowUpRightCircleFill style={{marginLeft:"10",fontSize:"25"}}/></Button>
         </div>
 
         {/* Floating Icons */}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, AlertCircle } from 'lucide-react';
+import { submitContactForm } from '../services/api';
 import '../styles/contact.css';
 
 export default function Contact() {
@@ -9,21 +10,35 @@ export default function Contact() {
     email: '',
     phone: '',
     company: '',
-    service: '',
+    serviceInterest: '',
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Thank you for your inquiry! We will get back to you within 24 hours.');
-    setFormData({ 
-      name: '', 
-      email: '', 
-      phone: '', 
-      company: '', 
-      service: '', 
-      message: '' 
-    });
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      await submitContactForm(formData);
+      setSubmitMessage('Thank you for your inquiry! We will get back to you within 24 hours.');
+      setFormData({ 
+        name: '', 
+        email: '', 
+        phone: '', 
+        company: '', 
+        serviceInterest: '', 
+        message: '' 
+      });
+    } catch (error) {
+      console.error('Contact form submission error:', error);
+      setSubmitMessage('Error: ' + (error.message || 'Failed to send message. Please try again.'));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -38,51 +53,32 @@ export default function Contact() {
     {
       icon: MapPin,
       title: 'Office Address',
-      details: ['123 Tech Park Avenue', 'Bangalore, Karnataka 560001', 'India']
+      details: ['No.546, Left cross road, CBE', 'Coimbatore, Tamil Nadu', 'India']
     },
     {
       icon: Phone,
       title: 'Phone Numbers',
-      details: ['+91 80 1234 5678', '+91 80 8765 4321', 'Toll Free: 1800 123 456']
+      details: ['123344556', 'hr@talvyntechnologies.com']
     },
     {
       icon: Mail,
       title: 'Email Addresses',
-      details: ['info@talvyntech.com', 'careers@talvyntech.com', 'support@talvyntech.com']
+      details: ['hr@talvyntechnologies.com', 'info@talvyntechnologies.com']
     },
     {
       icon: Clock,
       title: 'Business Hours',
-      details: ['Monday - Friday: 9:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 2:00 PM', 'Sunday: Closed']
+      details: ['Monday - Friday: 10:00 AM - 6:00 PM', 'Saturday: 10:00 AM - 2:00 PM', 'Sunday: Closed']
     }
   ];
 
   const services = [
     'Cybersecurity Solutions',
-    'Website Development',
-    'Custom Software Development',
-    'IT Consulting',
-    'Cloud Solutions',
+    'Website Development', 
+    'ERP Tool Development',
     'Other'
   ];
 
-  const officeLocations = [
-    {
-      city: 'Bangalore (HQ)',
-      address: '123 Tech Park Avenue, Whitefield',
-      phone: '+91 80 1234 5678'
-    },
-    {
-      city: 'Mumbai',
-      address: '456 Business Center, Bandra Kurla Complex',
-      phone: '+91 22 9876 5432'
-    },
-    {
-      city: 'Hyderabad',
-      address: '789 IT Hub, HITEC City',
-      phone: '+91 40 5555 6666'
-    }
-  ];
 
   return (
     <div className="contact-section">
@@ -176,11 +172,11 @@ export default function Contact() {
                 </div>
                 
                 <div className="form-field">
-                  <label htmlFor="service">Service Interest</label>
+                  <label htmlFor="serviceInterest">Service Interest</label>
                   <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
+                    id="serviceInterest"
+                    name="serviceInterest"
+                    value={formData.serviceInterest}
                     onChange={handleInputChange}
                   >
                     <option value="">Select a service</option>
@@ -205,10 +201,16 @@ export default function Contact() {
                   />
                 </div>
                 
-                <button type="submit" className="submit-button">
+                <button type="submit" className="submit-button" disabled={isSubmitting}>
                   <Send className="submit-icon" />
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
+                
+                {submitMessage && (
+                  <div className={`submit-message ${submitMessage.includes('Error') ? 'error' : 'success'}`}>
+                    {submitMessage}
+                  </div>
+                )}
               </form>
             </div>
           </motion.div>
@@ -249,40 +251,109 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* Office Locations */}
+        {/* Office Location with Map */}
         <motion.div 
-          className="office-locations-section"
+          className="office-map-section"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
         >
           <div className="section-header">
-            <h3>Our Offices</h3>
+            <h3>Visit Our Office</h3>
             <p>
-              We have multiple offices across India to serve you better. 
-              Visit us at any of our locations or schedule a virtual meeting.
+              Located in the heart of Coimbatore, our office is easily accessible 
+              and equipped with modern facilities to serve you better.
             </p>
           </div>
           
-          <div className="offices-grid">
-            {officeLocations.map((office, index) => (
-              <motion.div
-                key={index}
-                className="office-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 * index }}
-                viewport={{ once: true }}
-              >
+          <div className="office-map-container">
+            <motion.div 
+              className="office-details-card"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="office-header">
                 <div className="office-icon">
                   <MapPin className="icon" />
                 </div>
-                <h4 className="office-city">{office.city}</h4>
-                <p className="office-address">{office.address}</p>
-                <p className="office-phone">{office.phone}</p>
-              </motion.div>
-            ))}
+                <div>
+                  <h4>Talvyn Technologies HQ</h4>
+                  <p className="office-status">Headquarters</p>
+                </div>
+              </div>
+              
+              <div className="office-info">
+                <div className="info-item">
+                  <MapPin className="info-icon" />
+                  <div>
+                    <strong>Address</strong>
+                    <p>No.546, Left cross road, CBE<br />Coimbatore, Tamil Nadu, India</p>
+                  </div>
+                </div>
+                
+                <div className="info-item">
+                  <Phone className="info-icon" />
+                  <div>
+                    <strong>Phone</strong>
+                    <p>123344556</p>
+                  </div>
+                </div>
+                
+                <div className="info-item">
+                  <Clock className="info-icon" />
+                  <div>
+                    <strong>Business Hours</strong>
+                    <p>Monday - Friday: 10:00 AM - 6:00 PM<br />Saturday: 10:00 AM - 2:00 PM</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="map-actions">
+                <button 
+                  className="directions-btn"
+                  onClick={() => window.open('https://maps.google.com/dir/?api=1&destination=No.546,+Left+cross+road,+CBE,+Coimbatore,+Tamil+Nadu,+India', '_blank')}
+                >
+                  <MapPin className="btn-icon" />
+                  Get Directions
+                </button>
+                <button 
+                  className="view-larger-btn"
+                  onClick={() => window.open('https://maps.google.com/?q=No.546,+Left+cross+road,+CBE,+Coimbatore,+Tamil+Nadu,+India&z=17', '_blank')}
+                >
+                  View Larger Map
+                </button>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="interactive-map"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <div className="map-frame">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.7736!2d76.9558!3d11.0168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDAxJzAwLjUiTiA3NsKwNTcnMjEuOSJF!5e0!3m2!1sen!2sin!4v1698000000000!5m2!1sen!2sin&q=No.546,+Left+cross+road,+CBE,+Coimbatore,+Tamil+Nadu,+India"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, borderRadius: '12px' }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Talvyn Technologies Office Location"
+                />
+                <div className="map-overlay">
+                  <div className="location-marker">
+                    <MapPin className="marker-icon" />
+                    <span>Talvyn Technologies</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 

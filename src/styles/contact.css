@@ -1175,3 +1175,425 @@
         color: black;
     }
 }
+
+/* Submit Message Styles */
+.submit-message {
+  margin-top: 15px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+.submit-message.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.submit-message.error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.submit-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-button:disabled:hover {
+  background: #9ca3af;
+  transform: none;
+}
+
+/* Google Maps Button */
+.view-map-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #00704A;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.view-map-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.map-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Footer Email Link */
+.footer-email-link {
+  color: #00704A;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.footer-email-link:hover {
+  color: #059669;
+  text-decoration: underline;
+}
+
+/* Office Map Section */
+.office-map-section {
+    margin-bottom: clamp(60px, 8vw, 100px);
+}
+
+.office-map-container {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: clamp(30px, 5vw, 60px);
+    align-items: start;
+    margin-top: 40px;
+}
+
+.office-details-card {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%),
+        linear-gradient(45deg, rgba(0, 112, 74, 0.02) 0%, rgba(5, 150, 105, 0.02) 100%);
+    backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(0, 112, 74, 0.12);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 
+        0 10px 30px rgba(0, 112, 74, 0.08),
+        0 24px 60px rgba(0, 112, 74, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    position: sticky;
+    top: 100px;
+    transition: all 0.4s ease;
+}
+
+.office-details-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 15px 40px rgba(0, 112, 74, 0.12),
+        0 30px 80px rgba(0, 112, 74, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.office-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 112, 74, 0.1);
+}
+
+.office-header .office-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #00704A 0%, #059669 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    box-shadow: 0 4px 12px rgba(0, 112, 74, 0.3);
+}
+
+.office-header .office-icon .icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.office-header h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 4px 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.office-status {
+    font-size: 0.9rem;
+    color: #059669;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.office-info {
+    margin-bottom: 28px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(0, 112, 74, 0.02);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 112, 74, 0.05);
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background: rgba(0, 112, 74, 0.04);
+    border-color: rgba(0, 112, 74, 0.1);
+    transform: translateX(4px);
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-icon {
+    width: 20px;
+    height: 20px;
+    color: #00704A;
+    margin-right: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.info-item strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a202c;
+    display: block;
+    margin-bottom: 6px;
+    font-family: "Poppins", sans-serif;
+}
+
+.info-item p {
+    font-size: 0.95rem;
+    color: #4a5568;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.map-actions {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.directions-btn,
+.view-larger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.directions-btn {
+    background: linear-gradient(135deg, #00704A 0%, #059669 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 112, 74, 0.3);
+}
+
+.directions-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 112, 74, 0.4);
+    background: linear-gradient(135deg, #005a3c 0%, #047857 100%);
+}
+
+.view-larger-btn {
+    background: transparent;
+    color: #00704A;
+    border: 2px solid rgba(0, 112, 74, 0.2);
+}
+
+.view-larger-btn:hover {
+    background: rgba(0, 112, 74, 0.05);
+    border-color: rgba(0, 112, 74, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Interactive Map */
+.interactive-map {
+    position: relative;
+    min-height: 500px;
+}
+
+.map-frame {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 
+        0 12px 32px rgba(0, 112, 74, 0.15),
+        0 24px 64px rgba(0, 112, 74, 0.08);
+    border: 1px solid rgba(0, 112, 74, 0.1);
+    background: #f8fafc;
+}
+
+.map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+}
+
+.map-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px) saturate(1.5);
+    padding: 12px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 112, 74, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 112, 74, 0.15);
+    pointer-events: none;
+}
+
+.location-marker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.marker-icon {
+    width: 18px;
+    height: 18px;
+    color: #00704A;
+}
+
+.location-marker span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a202c;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Responsive Design for Map Section */
+@media (max-width: 1200px) {
+    .office-map-container {
+        grid-template-columns: 350px 1fr;
+        gap: 40px;
+    }
+    
+    .office-details-card {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 992px) {
+    .office-map-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .office-details-card {
+        position: static;
+        padding: 30px;
+    }
+    
+    .map-actions {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    .office-details-card {
+        padding: 24px;
+        border-radius: 20px;
+    }
+    
+    .office-header {
+        margin-bottom: 20px;
+    }
+    
+    .office-header h4 {
+        font-size: 1.2rem;
+    }
+    
+    .info-item {
+        padding: 14px;
+        margin-bottom: 16px;
+    }
+    
+    .map-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .directions-btn,
+    .view-larger-btn {
+        padding: 12px 18px;
+        font-size: 0.9rem;
+    }
+    
+    .map-frame {
+        height: 350px;
+        border-radius: 16px;
+    }
+    
+    .map-overlay {
+        top: 16px;
+        left: 16px;
+        padding: 10px 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .office-details-card {
+        padding: 20px;
+    }
+    
+    .office-header .office-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+    }
+    
+    .office-header .office-icon .icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .office-header h4 {
+        font-size: 1.1rem;
+    }
+    
+    .map-frame {
+        height: 300px;
+    }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
