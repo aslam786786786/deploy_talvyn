@@ -1,77 +1,152 @@
-# Talvyn Technologies Website
+# Talvyn Technologies - Full Stack Application
 
-A modern, responsive corporate website built with React and Vite, showcasing innovative technology solutions in cybersecurity, web development, and custom software development.
+A complete Docker-based web application for Talvyn Technologies featuring a React frontend and FastAPI backend with integrated email functionality.
 
-## 🚀 Features
+## 🚀 Quick Start (Docker Deployment)
 
-- **Modern React Architecture**: Built with React 18+ and Vite for optimal performance
-- **Responsive Design**: Mobile-first design that works on all devices
-- **Professional UI**: Clean, modern interface with smooth animations
-- **Component-Based**: Modular, reusable components for easy maintenance
-- **SEO Optimized**: Structured for search engine visibility
-- **Accessibility**: WCAG compliant for inclusive user experience
+### Prerequisites
+- Docker and Docker Compose installed
+- Git
 
-## 🛠️ Tech Stack
+### 1. Clone & Setup
+```bash
+git clone <your-repository-url>
+cd Talvyn
 
-- **Frontend**: React 18, JavaScript ES6+
-- **Build Tool**: Vite
-- **Styling**: CSS3, CSS Modules
-- **Animations**: Framer Motion, AOS (Animate On Scroll)
-- **Icons**: Lucide React, React Icons
-- **Routing**: React Router DOM
-- **Code Quality**: ESLint
+# Setup backend environment
+cp backend/.env.example backend/.env
+# Edit backend/.env with your SMTP credentials
+```
+
+### 2. Deploy with Docker
+```bash
+# Development deployment
+docker-compose up -d
+
+# Production deployment
+./deploy.sh
+```
+
+### 3. Access Application
+- **Frontend**: http://localhost
+- **Backend API**: http://localhost/api
+- **Health Check**: http://localhost/health
 
 ## 📁 Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-├── pages/              # Page components
-├── hooks/              # Custom React hooks
-├── styles/             # CSS modules and stylesheets
-├── assets/             # Static assets (images, icons)
-│   ├── images/
-│   │   ├── icons/      # Icon files
-│   │   ├── photos/     # Photo assets
-│   │   └── graphics/   # Graphic elements
-├── constants/          # Application constants
-├── utils/              # Utility functions
-├── services/           # API services
-├── data/              # Static data and mock data
-└── lib/               # Third-party library configurations
+Talvyn/
+├── src/                          # React frontend source
+│   ├── components/               # React components
+│   ├── services/                 # API service layer
+│   └── styles/                   # CSS modules
+├── backend/                      # FastAPI backend
+│   ├── app.py                   # Main application
+│   ├── Dockerfile               # Backend Docker config
+│   └── .env.example             # Environment template
+├── Dockerfile                   # Frontend Docker config
+├── nginx.conf                   # Nginx configuration
+├── docker-compose.yml           # Development deployment
+├── docker-compose.prod.yml      # Production deployment
+└── deploy.sh                    # Deployment script
 ```
 
-## 🚦 Getting Started
+## ⚙️ Configuration
+
+### Environment Variables
+Edit `backend/.env` with your email settings:
+```env
+SMTP_SERVER=smtp-mail.outlook.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@yourdomain.com
+SMTP_PASSWORD=your-app-password
+HR_EMAIL=hr@talvyntechnologies.com
+```
+
+### Office 365 SMTP Setup
+1. Disable Security Defaults in Microsoft 365 Admin Center
+2. Enable SMTP AUTH in Exchange Admin Center
+3. Generate App Password for the email account
+4. Use the app password in `SMTP_PASSWORD`
+
+## 🐳 Docker Services
+
+### Frontend Service
+- **Build**: React app with Vite
+- **Server**: Nginx with custom configuration
+- **Port**: 80
+- **Features**: API proxy, static file caching, React Router support
+
+### Backend Service
+- **Framework**: FastAPI with Python 3.11
+- **Features**: SMTP email integration, file uploads, health checks
+- **Internal Port**: 8000 (proxied through frontend)
+
+## 📧 Email Integration
+
+### Job Applications
+- Collects resume and application data
+- Sends detailed email to HR with resume attachment
+- Sends confirmation email to candidate
+
+### Contact Forms
+- Processes contact inquiries
+- Forwards to HR email with proper Reply-To headers
+
+## 🔧 Development Commands
+
+```bash
+# View logs
+docker-compose logs -f
+
+# Restart services
+docker-compose restart
+
+# Stop services
+docker-compose down
+
+# Rebuild images
+docker-compose build --no-cache
+
+# Clean up Docker resources
+docker system prune -f
+```
+
+## 💻 Local Development (Non-Docker)
 
 ### Prerequisites
-
 - Node.js (v16 or higher)
+- Python 3.11+
 - npm or yarn
 
-### Installation
+### Frontend Setup
+```bash
+# Install dependencies
+npm install
 
-1. Clone the repository
-   ```bash
-   git clone <repository-url>
-   cd Talvyn
-   ```
+# Start development server
+npm run dev
+# Open http://localhost:5173
+```
 
-2. Install dependencies
-   ```bash
-   npm install
-   ```
+### Backend Setup
+```bash
+cd backend
 
-3. Copy environment variables
-   ```bash
-   cp .env.example .env
-   ```
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-4. Start the development server
-   ```bash
-   npm run dev
-   ```
+# Install dependencies
+pip install -r requirements.txt
 
-5. Open [http://localhost:5173](http://localhost:5173) in your browser
+# Setup environment
+cp .env.example .env
+# Edit .env with your SMTP settings
+
+# Run development server
+uvicorn app:app --reload --port 8000
+```
 
 ## 📜 Available Scripts
 
@@ -80,90 +155,113 @@ src/
 - `npm run preview` - Preview the production build locally
 - `npm run lint` - Run ESLint to check code quality
 
-## 🎨 Design System
+## 🎨 Tech Stack
 
-### Colors
-- **Primary**: #00704A (Dark Green)
-- **Primary Light**: #059669 (Light Green)
-- **Dark**: #1a202c
-- **Gray**: #4a5568
-- **Light Gray**: #e2e8f0
+### Frontend
+- **Framework**: React 19 with Vite
+- **Styling**: Bootstrap 5 + CSS Modules
+- **Animations**: AOS (Animate On Scroll), Framer Motion
+- **Icons**: Lucide React, React Icons
+- **Routing**: React Router DOM
+- **Build**: Vite with SWC
 
-### Typography
-- **Primary Font**: Poppins (Headings)
-- **Secondary Font**: Inter (Body text)
-- **Accent Font**: Ubuntu, Ubuntu Mono (Special elements)
+### Backend
+- **Framework**: FastAPI (Python 3.11)
+- **Email**: SMTP with Office 365 integration
+- **File Handling**: Aiofiles for async file operations
+- **Validation**: Pydantic models
+- **Server**: Uvicorn ASGI server
 
-## 🏗️ Architecture
+### Deployment
+- **Containerization**: Docker & Docker Compose
+- **Web Server**: Nginx (reverse proxy & static files)
+- **Monitoring**: Health checks & logging
 
-### Component Organization
-- **Pages**: Top-level route components
-- **Components**: Reusable UI components
-- **Hooks**: Custom React hooks for shared logic
-- **Utils**: Pure utility functions
-- **Services**: API integration layer
-- **Constants**: Application-wide constants
+## 📱 Features
 
-### Styling Strategy
-- CSS Modules for component-specific styles
-- Global styles for base elements
-- Responsive design with mobile-first approach
-- Consistent spacing and color system
+### Frontend
+- Responsive design with Bootstrap
+- Professional UI with smooth animations
+- Contact form with validation
+- Career portal with job applications
+- Service showcase with modals
+- Google Maps integration
 
-## 🌐 Deployment
+### Backend
+- RESTful API endpoints
+- File upload handling (PDF, DOC, DOCX)
+- Email notifications with templates
+- Input validation and sanitization
+- CORS support
+- Health monitoring endpoints
 
-### Build for Production
+## 🔒 Security Features
+
+- Non-root Docker containers
+- Input validation and sanitization
+- Secure file upload handling
+- SMTP authentication with app passwords
+- Error handling without data exposure
+- CORS protection
+
+## 🚀 Production Features
+
+### Resource Management
+- **Frontend**: 256MB RAM, 0.3 CPU limit
+- **Backend**: 512MB RAM, 0.5 CPU limit
+- Automatic container restart policies
+
+### Monitoring & Logging
+- Health check endpoints
+- Container status monitoring
+- Log rotation (10MB max, 3 files)
+- Docker system resource tracking
+
+## 🤝 Contact Information
+
+### Business
+- **Email**: hr@talvyntechnologies.com
+- **Phone**: 123344556
+- **Address**: No.546, Left cross road, CBE, Coimbatore
+
+### Technical Support
+- **Email**: tech@talvyntechnologies.com
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+1. **Email sending fails**:
+   - Check SMTP credentials in `backend/.env`
+   - Verify Office 365 app password
+   - Ensure SMTP AUTH is enabled
+
+2. **Docker build errors**:
+   - Run `docker system prune -f` to clean up
+   - Check Docker daemon is running
+   - Verify file permissions
+
+3. **API connection issues**:
+   - Ensure backend container is healthy
+   - Check nginx proxy configuration
+   - Verify network connectivity between containers
+
+### Logs & Debugging
 ```bash
-npm run build
+# View all logs
+docker-compose logs -f
+
+# View specific service logs
+docker-compose logs -f frontend
+docker-compose logs -f backend
+
+# Check container status
+docker-compose ps
+
+# Restart specific service
+docker-compose restart backend
 ```
 
-The build artifacts will be stored in the `dist/` directory.
+---
 
-### Environment Variables
-Copy `.env.example` to `.env` and configure:
-- `VITE_API_BASE_URL` - Backend API URL
-- `VITE_CONTACT_EMAIL` - Contact email address
-- `VITE_CONTACT_PHONE` - Contact phone number
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is proprietary and confidential. All rights reserved by Talvyn Technologies.
-
-## 📞 Contact
-
-- **Email**: Aaron@gmail.com
-- **Phone**: 1234567890
-- **Address**: No.546, Left cross road, CBE
-
-## 🔧 Development Guidelines
-
-### Code Style
-- Use functional components with hooks
-- Follow ESLint configuration
-- Use meaningful component and function names
-- Keep components small and focused
-- Write self-documenting code
-
-### File Naming
-- Components: PascalCase (e.g., `Header.jsx`)
-- Utilities: camelCase (e.g., `formatDate.js`)
-- Constants: UPPER_SNAKE_CASE (e.g., `API_ENDPOINTS`)
-- Styles: kebab-case (e.g., `header-styles.css`)
-
-### Commit Messages
-Follow conventional commit format:
-- `feat:` new feature
-- `fix:` bug fix
-- `docs:` documentation changes
-- `style:` formatting changes
-- `refactor:` code refactoring
-- `test:` adding tests
-- `chore:` maintenance tasks
+© 2024 Talvyn Technologies. All rights reserved.
