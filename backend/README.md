@@ -43,7 +43,7 @@ cp .env.example .env
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 2. Docker Deployment
+### 2. Docker Deployment (Development)
 
 ```bash
 # Build and run with Docker Compose
@@ -54,31 +54,52 @@ docker build -t talvyn-backend .
 docker run -p 8000:8000 --env-file .env talvyn-backend
 ```
 
+### 3. Docker Production Deployment
+
+```bash
+# Use production configuration
+./deploy.sh
+
+# Or manually:
+docker-compose -f docker-compose.prod.yml up -d
+```
+
 ## Environment Configuration
 
 Create a `.env` file with the following variables:
 
 ```env
-# Email Configuration
-SMTP_SERVER=smtp.gmail.com
+# Email Configuration - Office 365 SMTP
+SMTP_SERVER=smtp-mail.outlook.com
 SMTP_PORT=587
-EMAIL_ADDRESS=your-company-email@gmail.com
-EMAIL_PASSWORD=your-app-specific-password
+SMTP_USERNAME=hr@talvyntechnologies.com
+SMTP_PASSWORD=your-app-password-here
+
+# HR Email (where applications will be sent)
+HR_EMAIL=hr@talvyntechnologies.com
 
 # Application Settings
-DEBUG=False
 HOST=0.0.0.0
 PORT=8000
 ```
 
-### Gmail Configuration
+### Office 365 SMTP Configuration
 
-1. Enable 2-factor authentication on your Gmail account
-2. Generate an app-specific password:
-   - Go to Google Account settings
-   - Security → 2-Step Verification → App passwords
-   - Generate password for "Mail"
-   - Use this password in `EMAIL_PASSWORD`
+1. **Disable Security Defaults** (if enabled):
+   - Go to https://entra.microsoft.com
+   - Identity → Overview → Properties → Manage security defaults
+   - Set to "No"
+
+2. **Enable SMTP AUTH for the user**:
+   - Go to https://admin.exchange.microsoft.com
+   - Settings → Mail flow → SMTP AUTH
+   - Enable "SMTP AUTH" globally
+
+3. **Generate App Password**:
+   - Go to https://mysignins.microsoft.com/security-info
+   - Add sign-in method → App password
+   - Name: "Website SMTP"
+   - Use the generated password in `SMTP_PASSWORD`
 
 ## API Endpoints
 
@@ -121,7 +142,7 @@ Content-Type: application/json
 ### Health Check
 
 ```http
-GET /api/health
+GET /health
 ```
 
 ## Email Flow

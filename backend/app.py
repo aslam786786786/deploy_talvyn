@@ -408,6 +408,10 @@ async def submit_job_application(
             }
         )
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Docker"""
+    return {"status": "healthy", "service": "Talvyn Backend API"}
 
 @app.post("/api/contact")
 async def submit_contact_form(contact: ContactForm):
