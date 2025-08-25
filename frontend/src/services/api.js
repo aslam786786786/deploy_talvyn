@@ -4,8 +4,7 @@
 /**
  * Base API configuration
  */
-// For Docker deployment, use relative URLs when no environment variable is set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 /**
  * Submit job application with resume file

@@ -1,10 +1,35 @@
 version: '3.8'
 
 services:
-  # Backend API Service - Production
+  # Frontend Service - Production
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_BASE_URL=https://api.talvyntechnologies.com
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - talvyn-network
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Backend Service - Production
   backend:
-    build: ./backend
-    container_name: talvyn-backend-prod
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     environment:
       - SMTP_SERVER=${SMTP_SERVER}
       - SMTP_PORT=${SMTP_PORT}
@@ -13,59 +38,19 @@ services:
       - HR_EMAIL=${HR_EMAIL}
       - HOST=0.0.0.0
       - PORT=8000
-    env_file:
-      - ./backend/.env
+      - ENVIRONMENT=production
     volumes:
-      - backend-uploads:/app/uploads
-    restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
+      - ./backend/uploads:/app/uploads
+      - logs:/app/logs
+    networks:
+      - talvyn-network
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-    networks:
-      - talvyn-network
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  # Frontend Web Service - Production
-  frontend:
-    build: .
-    container_name: talvyn-frontend-prod
-    ports:
-      - "80:80"
-    depends_on:
-      backend:
-        condition: service_healthy
-    restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 256M
-        reservations:
-          cpus: '0.15'
-          memory: 128M
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-    networks:
-      - talvyn-network
     logging:
       driver: "json-file"
       options:
@@ -77,5 +62,7 @@ networks:
     driver: bridge
 
 volumes:
-  backend-uploads:
+  uploads:
+    driver: local
+  logs:
     driver: local

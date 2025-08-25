@@ -1,267 +1,156 @@
-# Talvyn Technologies - Full Stack Application
+# Talvyn Technologies
 
-A complete Docker-based web application for Talvyn Technologies featuring a React frontend and FastAPI backend with integrated email functionality.
+Full-stack web application with React 19 frontend and FastAPI backend, featuring email services for job applications and contact forms.
 
-## 🚀 Quick Start (Docker Deployment)
+## 🏗️ Project Structure
+
+```
+Talvyn/
+├── frontend/           # React 19 + Vite application
+│   ├── src/           # React components, pages, services
+│   ├── public/        # Static assets
+│   ├── package.json   # Frontend dependencies
+│   └── Dockerfile     # Frontend container config
+├── backend/           # FastAPI Python application
+│   ├── app.py         # Main FastAPI app
+│   ├── requirements.txt # Python dependencies
+│   ├── Dockerfile     # Backend container config
+│   └── uploads/       # Resume upload directory
+├── docker-compose.yml # Container orchestration
+├── .env.example      # Environment template
+└── .gitignore        # Git ignore rules
+```
+
+## 🚀 Features
+
+- **Modern React 19** with Vite build system
+- **FastAPI Backend** with async email processing
+- **Docker Containerization** for consistent deployment
+- **File Upload Support** for job applications (PDF, DOC, DOCX)
+- **SMTP Email Integration** with Outlook/Gmail support
+- **Production Ready** with proper logging and error handling
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React 19, JavaScript ES6+, Vite
+- Framer Motion, AOS animations
+- Bootstrap, Lucide React icons
+- React Router DOM
+
+**Backend:**
+- FastAPI, Python 3.11
+- Pydantic validation
+- SMTP email services
+- Docker containerization
+
+## 🚦 Quick Start
 
 ### Prerequisites
-- Docker and Docker Compose installed
+- Docker & Docker Compose
 - Git
 
 ### 1. Clone & Setup
 ```bash
-git clone <your-repository-url>
+git clone <repository-url>
 cd Talvyn
-
-# Setup backend environment
-cp backend/.env.example backend/.env
-# Edit backend/.env with your SMTP credentials
+cp .env.example .env
 ```
 
-### 2. Deploy with Docker
-```bash
-# Development deployment
-docker-compose up -d
-
-# Production deployment
-./deploy.sh
-```
-
-### 3. Access Application
-- **Frontend**: http://localhost
-- **Backend API**: http://localhost/api
-- **Health Check**: http://localhost/health
-
-## 📁 Project Structure
-
-```
-Talvyn/
-├── src/                          # React frontend source
-│   ├── components/               # React components
-│   ├── services/                 # API service layer
-│   └── styles/                   # CSS modules
-├── backend/                      # FastAPI backend
-│   ├── app.py                   # Main application
-│   ├── Dockerfile               # Backend Docker config
-│   └── .env.example             # Environment template
-├── Dockerfile                   # Frontend Docker config
-├── nginx.conf                   # Nginx configuration
-├── docker-compose.yml           # Development deployment
-├── docker-compose.prod.yml      # Production deployment
-└── deploy.sh                    # Deployment script
-```
-
-## ⚙️ Configuration
-
-### Environment Variables
-Edit `backend/.env` with your email settings:
+### 2. Configure Environment
+Edit `.env` with your SMTP credentials:
 ```env
 SMTP_SERVER=smtp-mail.outlook.com
 SMTP_PORT=587
-SMTP_USERNAME=your-email@yourdomain.com
+SMTP_USERNAME=your-email@outlook.com
 SMTP_PASSWORD=your-app-password
 HR_EMAIL=hr@talvyntechnologies.com
 ```
 
-### Office 365 SMTP Setup
-1. Disable Security Defaults in Microsoft 365 Admin Center
-2. Enable SMTP AUTH in Exchange Admin Center
-3. Generate App Password for the email account
-4. Use the app password in `SMTP_PASSWORD`
+**Get Outlook App Password:**
+1. Go to https://account.microsoft.com/security
+2. Advanced security options → App passwords
+3. Generate password for "Mail"
 
-## 🐳 Docker Services
+### 3. Deploy
+```bash
+docker-compose up -d
+```
 
-### Frontend Service
-- **Build**: React app with Vite
-- **Server**: Nginx with custom configuration
-- **Port**: 80
-- **Features**: API proxy, static file caching, React Router support
+### 4. Access Applications
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
 
-### Backend Service
-- **Framework**: FastAPI with Python 3.11
-- **Features**: SMTP email integration, file uploads, health checks
-- **Internal Port**: 8000 (proxied through frontend)
+## 🔧 Development
 
-## 📧 Email Integration
+### Local Development (Alternative)
 
-### Job Applications
-- Collects resume and application data
-- Sends detailed email to HR with resume attachment
-- Sends confirmation email to candidate
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev     # http://localhost:5173
+npm run build   # Production build
+npm run lint    # Code quality check
+```
 
-### Contact Forms
-- Processes contact inquiries
-- Forwards to HR email with proper Reply-To headers
+**Backend:**
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env  # Configure SMTP settings
+python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
 
-## 🔧 Development Commands
+## 📚 API Endpoints
+
+- `POST /api/job-application` - Submit job application with resume
+- `POST /api/contact` - Submit contact form
+- `GET /api/health` - Health check
+
+## 🐳 Docker Commands
 
 ```bash
+# Start services
+docker-compose up -d
+
 # View logs
 docker-compose logs -f
-
-# Restart services
-docker-compose restart
 
 # Stop services
 docker-compose down
 
-# Rebuild images
-docker-compose build --no-cache
+# Rebuild
+docker-compose up --build
 
-# Clean up Docker resources
-docker system prune -f
-```
-
-## 💻 Local Development (Non-Docker)
-
-### Prerequisites
-- Node.js (v16 or higher)
-- Python 3.11+
-- npm or yarn
-
-### Frontend Setup
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-# Open http://localhost:5173
-```
-
-### Backend Setup
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Setup environment
-cp .env.example .env
-# Edit .env with your SMTP settings
-
-# Run development server
-uvicorn app:app --reload --port 8000
-```
-
-## 📜 Available Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build the application for production
-- `npm run preview` - Preview the production build locally
-- `npm run lint` - Run ESLint to check code quality
-
-## 🎨 Tech Stack
-
-### Frontend
-- **Framework**: React 19 with Vite
-- **Styling**: Bootstrap 5 + CSS Modules
-- **Animations**: AOS (Animate On Scroll), Framer Motion
-- **Icons**: Lucide React, React Icons
-- **Routing**: React Router DOM
-- **Build**: Vite with SWC
-
-### Backend
-- **Framework**: FastAPI (Python 3.11)
-- **Email**: SMTP with Office 365 integration
-- **File Handling**: Aiofiles for async file operations
-- **Validation**: Pydantic models
-- **Server**: Uvicorn ASGI server
-
-### Deployment
-- **Containerization**: Docker & Docker Compose
-- **Web Server**: Nginx (reverse proxy & static files)
-- **Monitoring**: Health checks & logging
-
-## 📱 Features
-
-### Frontend
-- Responsive design with Bootstrap
-- Professional UI with smooth animations
-- Contact form with validation
-- Career portal with job applications
-- Service showcase with modals
-- Google Maps integration
-
-### Backend
-- RESTful API endpoints
-- File upload handling (PDF, DOC, DOCX)
-- Email notifications with templates
-- Input validation and sanitization
-- CORS support
-- Health monitoring endpoints
-
-## 🔒 Security Features
-
-- Non-root Docker containers
-- Input validation and sanitization
-- Secure file upload handling
-- SMTP authentication with app passwords
-- Error handling without data exposure
-- CORS protection
-
-## 🚀 Production Features
-
-### Resource Management
-- **Frontend**: 256MB RAM, 0.3 CPU limit
-- **Backend**: 512MB RAM, 0.5 CPU limit
-- Automatic container restart policies
-
-### Monitoring & Logging
-- Health check endpoints
-- Container status monitoring
-- Log rotation (10MB max, 3 files)
-- Docker system resource tracking
-
-## 🤝 Contact Information
-
-### Business
-- **Email**: hr@talvyntechnologies.com
-- **Phone**: 123344556
-- **Address**: No.546, Left cross road, CBE, Coimbatore
-
-### Technical Support
-- **Email**: tech@talvyntechnologies.com
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-1. **Email sending fails**:
-   - Check SMTP credentials in `backend/.env`
-   - Verify Office 365 app password
-   - Ensure SMTP AUTH is enabled
-
-2. **Docker build errors**:
-   - Run `docker system prune -f` to clean up
-   - Check Docker daemon is running
-   - Verify file permissions
-
-3. **API connection issues**:
-   - Ensure backend container is healthy
-   - Check nginx proxy configuration
-   - Verify network connectivity between containers
-
-### Logs & Debugging
-```bash
-# View all logs
-docker-compose logs -f
-
-# View specific service logs
-docker-compose logs -f frontend
-docker-compose logs -f backend
-
-# Check container status
+# View status
 docker-compose ps
-
-# Restart specific service
-docker-compose restart backend
 ```
 
----
+## 🌐 Production Deployment
 
-© 2024 Talvyn Technologies. All rights reserved.
+1. **Update environment variables** for production
+2. **Set up SSL/TLS** certificates
+3. **Configure reverse proxy** (Nginx/Apache)
+4. **Set up monitoring** and logging
+5. **Implement backup strategy**
+
+## 🔒 Security
+
+- Environment variables for sensitive data
+- Input validation with Pydantic
+- File type restrictions for uploads
+- CORS configuration
+- HTTPS in production
+
+## 📝 License
+
+Proprietary - All rights reserved by Talvyn Technologies
+
+## 📞 Support
+
+- **Email**: hr@talvyntechnologies.com
+- **Issues**: Create GitHub issue for technical problems
