@@ -1,10 +1,30 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Mail, Users, Award, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { Linkedin, Mail, Users, Award, TrendingUp, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { useRef, useState } from 'react';
 import "../styles/ourteam.css";
 
 const OurTeam = () => {
   const scrollRef = useRef(null);
+  const [copiedEmail, setCopiedEmail] = useState(null);
+
+  const copyEmailToClipboard = async (email, memberName) => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopiedEmail(memberName);
+      setTimeout(() => setCopiedEmail(null), 2000); // Clear after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy email: ', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopiedEmail(memberName);
+      setTimeout(() => setCopiedEmail(null), 2000);
+    }
+  };
 
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -26,30 +46,30 @@ const OurTeam = () => {
 
   const teamMembers = [
     {
-      name: 'Rajesh Kumar',
+      name: 'Aaron',
       position: 'Chief Executive Officer',
-      experience: '15+ years',
+      experience: '2+ years',
       expertise: 'Strategic Leadership, Business Development',
-      email: 'rajesh@talvyntech.com',
-      linkedin: '#',
+      email: 'aaron.a@talvyntechnologies.com',
+      linkedin: 'https://www.linkedin.com/in/aaron-a-77ba65216/',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face'
     },
     {
-      name: 'Priya Sharma',
+      name: 'Balaji',
       position: 'Chief Technology Officer',
-      experience: '12+ years',
+      experience: '2+ years',
       expertise: 'Software Architecture, Cloud Technologies',
-      email: 'priya@talvyntech.com',
-      linkedin: '#',
+      email: 'balaji.p@talvyntechnologies.com',
+      linkedin: 'https://www.linkedin.com/in/balaji-p-08963925b/',
       image: 'https://images.unsplash.com/photo-1494790108755-2616c3dc7bb3?w=400&h=500&fit=crop&crop=face'
     },
     {
-      name: 'Amit Patel',
-      position: 'Head of Cybersecurity',
-      experience: '10+ years',
+      name: 'Sveda Nagaraju',
+      position: 'HR Manager',
+      experience: '2+ years',
       expertise: 'Information Security, Risk Management',
-      email: 'amit@talvyntech.com',
-      linkedin: '#',
+      email: 'sveda.n@talvyntechnologies.com',
+      linkedin: 'https://www.linkedin.com/in/sveda-nagaraju/',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face'
     },
     {
@@ -186,10 +206,22 @@ const OurTeam = () => {
                   </div>
 
                   <div className="member-contact">
-                    <button className="contact-btn" title="Send Email">
-                      <Mail className="contact-icon" />
+                    <button 
+                      className={`contact-btn email-btn ${copiedEmail === member.name ? 'copied' : ''}`}
+                      title={copiedEmail === member.name ? "Email Copied!" : "Copy Email Address"}
+                      onClick={() => copyEmailToClipboard(member.email, member.name)}
+                    >
+                      {copiedEmail === member.name ? (
+                        <Check className="contact-icon" />
+                      ) : (
+                        <Mail className="contact-icon" />
+                      )}
                     </button>
-                    <button className="contact-btn" title="LinkedIn Profile">
+                    <button 
+                      className="contact-btn linkedin-btn" 
+                      title="LinkedIn Profile"
+                      onClick={() => window.open(member.linkedin, '_blank', 'noopener,noreferrer')}
+                    >
                       <Linkedin className="contact-icon" />
                     </button>
                   </div>

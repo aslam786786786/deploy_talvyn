@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Globe, Cpu, ArrowRight, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { scrollToElement } from '../utils';
 import ServiceModal from './ServiceModal';
 import '../styles/services.css';
@@ -8,10 +9,16 @@ import '../styles/services.css';
 export default function Services() {
     const [selectedService, setSelectedService] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleLearnMore = (service) => {
-        setSelectedService(service);
-        setIsModalOpen(true);
+        const serviceRoutes = {
+            'Cybersecurity': 'cybersecurity',
+            'Website Development': 'web-development',
+            'ERP Tool Development': 'erp-development'
+        };
+        const serviceRoute = serviceRoutes[service.title];
+        navigate(`/services/${serviceRoute}`);
     };
 
     const closeModal = () => {
@@ -158,10 +165,16 @@ export default function Services() {
                             Our experienced team is ready to help you leverage technology to achieve your business goals. 
                             Contact us today to discuss your project requirements.
                         </p>
-                        <button className="get-started-btn" onClick={() => scrollToElement('contact')}>
-                            Get Started Today
-                            <ArrowRight className="w-5 h-5" />
-                        </button>
+                        <div className="cta-buttons">
+                            <button className="get-started-btn" onClick={() => scrollToElement('contact')}>
+                                Get Started Today
+                                <ArrowRight className="w-5 h-5" />
+                            </button>
+                            <button className="learn-more-btn" onClick={() => navigate('/learn-more-about-us')}>
+                                Learn More About Us
+                                <ArrowRight className="w-5 h-5" />
+                            </button>
+                        </div>
                     </div>
                 </motion.div>
 

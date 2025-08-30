@@ -402,20 +402,23 @@
   align-items: center;
   padding: 30px 40px 20px;
   border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #00704A 0%, #005a3c 100%);
+  border-radius: 20px 20px 0 0;
+  margin: -1px -1px 0 -1px;
 }
 
 .modal-header h2 {
   font-size: 2rem;
-  color: #00704A;
+  color: white;
   margin: 0;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
 }
 
 .close-modal {
-  background: rgba(0, 112, 74, 0.1);
-  border: 1px solid rgba(0, 112, 74, 0.2);
-  color: #00704A;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
@@ -428,8 +431,8 @@
 }
 
 .close-modal:hover {
-  background: rgba(0, 112, 74, 0.2);
-  color: #005a3c;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
   transform: scale(1.05);
 }
 

@@ -413,6 +413,47 @@
     transform: translateX(5px);
 }
 
+/* CTA Buttons Container */
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.learn-more-btn {
+    background: transparent;
+    color: #00704A;
+    border: 2px solid #00704A;
+    padding: 18px 40px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Ubuntu", sans-serif;
+    text-decoration: none;
+}
+
+.learn-more-btn:hover {
+    background: #00704A;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 112, 74, 0.2);
+}
+
+.learn-more-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.learn-more-btn:hover svg {
+    transform: translateX(5px);
+}
+
 /* Scroll Indicator */
 .scroll-indicator {
     text-align: center;
@@ -625,9 +666,15 @@
         font-size: 1rem;
     }
     
-    .get-started-btn {
+    .get-started-btn,
+    .learn-more-btn {
         padding: 15px 30px;
         font-size: 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
     }
 }
 
@@ -674,7 +721,8 @@
         font-size: 0.9rem;
     }
     
-    .get-started-btn {
+    .get-started-btn,
+    .learn-more-btn {
         padding: 14px 25px;
         font-size: 0.95rem;
     }

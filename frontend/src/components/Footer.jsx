@@ -77,11 +77,11 @@ const Footer = () => {
               </div>
               <div className="contact-item">
                 <Mail className="contact-icon" />
-                <span>Aaron@gmail.com</span>
+                <span>hr@talvyntechnologies.com</span>
               </div>
               <div className="contact-item">
                 <Phone className="contact-icon" />
-                <span>1234567890</span>
+                <span>+91 82202 49111</span>
               </div>
             </div>
           </div>
@@ -100,10 +100,10 @@ const Footer = () => {
                   className="social-icon-img" 
                 />
               </a>
-              <a href="#" className="social-link">
+              <a href="https://www.linkedin.com/company/talvyn-technologies-private-limited/" target="_blank" rel="noopener noreferrer" className="social-link">
                 <Linkedin className="social-icon" />
               </a>
-              <a href="#" className="social-link">
+              <a href="https://www.instagram.com/talvyn_technologies?utm_source=qr&igsh=MWI2eDJtZXBpdXNwcg==" target="_blank" rel="noopener noreferrer" className="social-link">
                 <Instagram className="social-icon" />
               </a>
             </div>

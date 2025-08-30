@@ -58,7 +58,7 @@ export default function Contact() {
     {
       icon: Phone,
       title: 'Phone Numbers',
-      details: ['123344556', 'hr@talvyntechnologies.com']
+      details: ['+91 82202 49111', 'hr@talvyntechnologies.com']
     },
     {
       icon: Mail,
@@ -68,7 +68,7 @@ export default function Contact() {
     {
       icon: Clock,
       title: 'Business Hours',
-      details: ['Monday - Friday: 10:00 AM - 6:00 PM', 'Saturday: 10:00 AM - 2:00 PM', 'Sunday: Closed']
+      details: ['Monday - Friday: 10:00 AM - 7:00 PM', 'Saturday: 10:00 AM - 2:00 PM', 'Sunday: Closed']
     }
   ];
 
@@ -298,7 +298,7 @@ export default function Contact() {
                   <Phone className="info-icon" />
                   <div>
                     <strong>Phone</strong>
-                    <p>123344556</p>
+                    <p>+91 82202 49111</p>
                   </div>
                 </div>
                 
@@ -306,7 +306,7 @@ export default function Contact() {
                   <Clock className="info-icon" />
                   <div>
                     <strong>Business Hours</strong>
-                    <p>Monday - Friday: 10:00 AM - 6:00 PM<br />Saturday: 10:00 AM - 2:00 PM</p>
+                    <p>Monday - Friday: 10:00 AM - 7:00 PM<br />Saturday: 10:00 AM - 2:00 PM</p>
                   </div>
                 </div>
               </div>
