@@ -58,12 +58,12 @@ export default function Contact() {
     {
       icon: Phone,
       title: 'Phone Numbers',
-      details: ['+91 82202 49111', 'hr@talvyntechnologies.com']
+      details: ['+91 82202 49111', '+91 95006 60573']
     },
     {
       icon: Mail,
       title: 'Email Addresses',
-      details: ['hr@talvyntechnologies.com', 'info@talvyntechnologies.com']
+      details: ['contact@talvyntechnologies.com']
     },
     {
       icon: Clock,

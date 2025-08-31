@@ -30,100 +30,8 @@ const JobOpenings = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  const jobOpenings = [
-    {
-      title: 'Senior Cybersecurity Analyst',
-      department: 'Cybersecurity',
-      location: 'Remote/Hybrid',
-      type: 'Full-time',
-      salary: '₹8-12 LPA',
-      description: 'Lead security assessments, implement security protocols, and develop incident response strategies.',
-      detailedDescription: 'As a Senior Cybersecurity Analyst, you will be responsible for protecting our organization and clients from cyber threats. You will conduct comprehensive security assessments, develop and implement security protocols, and lead incident response efforts.',
-      responsibilities: [
-        'Conduct regular security assessments and vulnerability testing',
-        'Develop and maintain security policies and procedures',
-        'Lead incident response and forensic analysis',
-        'Monitor security systems and analyze threat intelligence',
-        'Collaborate with cross-functional teams on security initiatives',
-        'Stay updated on latest cybersecurity trends and threats'
-      ],
-      requirements: [
-        '5+ years in cybersecurity',
-        'CISSP or CEH certification preferred',
-        'Experience with security tools and frameworks',
-        'Strong analytical and problem-solving skills'
-      ]
-    },
-    {
-      title: 'Full Stack Developer',
-      department: 'Web Development',
-      location: 'On-site',
-      type: 'Full-time',
-      salary: '₹6-10 LPA',
-      description: 'Develop and maintain modern web applications using React, Node.js, and cloud technologies.',
-      detailedDescription: 'Join our development team to build cutting-edge web applications that serve thousands of users. You will work with modern technologies including React, Node.js, and cloud platforms to create scalable, responsive applications.',
-      responsibilities: [
-        'Develop responsive web applications using React and TypeScript',
-        'Build robust backend APIs using Node.js and Express',
-        'Implement database solutions and optimize queries',
-        'Deploy applications on cloud platforms (AWS/Azure)',
-        'Collaborate with designers to implement UI/UX requirements',
-        'Write clean, maintainable, and well-documented code'
-      ],
-      requirements: [
-        '3+ years in full-stack development',
-        'Proficiency in React, Node.js, TypeScript',
-        'Experience with cloud platforms (AWS/Azure)',
-        'Knowledge of database systems'
-      ]
-    },
-    {
-      title: 'UI/UX Designer',
-      department: 'Design',
-      location: 'Hybrid',
-      type: 'Full-time',
-      salary: '₹4-7 LPA',
-      description: 'Create intuitive and engaging user experiences for web and mobile applications.',
-      detailedDescription: 'Shape the user experience of our digital products by creating intuitive, engaging, and accessible designs. You will work closely with product managers and developers to translate user needs into beautiful, functional interfaces.',
-      responsibilities: [
-        'Conduct user research and create user personas',
-        'Design wireframes, mockups, and interactive prototypes',
-        'Develop and maintain design systems and style guides',
-        'Collaborate with developers to ensure design implementation',
-        'Conduct usability testing and iterate on designs',
-        'Stay updated on design trends and best practices'
-      ],
-      requirements: [
-        '2+ years in UI/UX design',
-        'Proficiency in Figma, Adobe Creative Suite',
-        'Strong portfolio demonstrating design skills',
-        'Understanding of user-centered design principles'
-      ]
-    },
-    {
-      title: 'DevOps Engineer',
-      department: 'Infrastructure',
-      location: 'Remote',
-      type: 'Full-time',
-      salary: '₹7-11 LPA',
-      description: 'Manage CI/CD pipelines, cloud infrastructure, and deployment automation.',
-      detailedDescription: 'Join our infrastructure team to build and maintain robust, scalable systems that support our applications and services. You will work with cutting-edge DevOps tools and practices to ensure smooth deployments.',
-      responsibilities: [
-        'Design and maintain CI/CD pipelines',
-        'Manage cloud infrastructure on AWS/Azure/GCP',
-        'Implement monitoring and alerting systems',
-        'Automate deployment processes and infrastructure provisioning',
-        'Collaborate with development teams on deployment strategies',
-        'Ensure security and compliance in infrastructure'
-      ],
-      requirements: [
-        '3+ years in DevOps/Infrastructure',
-        'Experience with Docker, Kubernetes',
-        'Knowledge of AWS/Azure cloud services',
-        'Scripting skills in Python or Bash'
-      ]
-    }
-  ];
+  // Set to empty array to simulate no job openings - change this to add jobs
+  const jobOpenings = [];
 
   const handleApplicationSubmit = async (e) => {
     e.preventDefault();
@@ -220,37 +128,65 @@ const JobOpenings = () => {
           <p>Discover exciting career opportunities at Talvyn Technologies. Join our team and help shape the future of technology.</p>
         </motion.div>
 
-        <motion.div
-          className="search-section"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="search-container">
-            <Search className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search jobs by title, department, location, or type..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className="clear-search"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-          <div className="search-results-count">
-            {filteredJobs.length} {filteredJobs.length === 1 ? 'position' : 'positions'} found
-          </div>
-        </motion.div>
+        {jobOpenings.length > 0 && (
+          <motion.div
+            className="search-section"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="search-container">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search jobs by title, department, location, or type..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="clear-search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            <div className="search-results-count">
+              {filteredJobs.length} {filteredJobs.length === 1 ? 'position' : 'positions'} found
+            </div>
+          </motion.div>
+        )}
 
         <div className="jobs-grid">
-          {filteredJobs.length > 0 ? filteredJobs.map((job, index) => (
+          {jobOpenings.length === 0 ? (
+            <motion.div
+              className="no-openings"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="no-openings-icon">
+                <Users className="w-16 h-16" />
+              </div>
+              <h3>No Current Openings</h3>
+              <p>We don't have any open positions at the moment, but we're always looking for talented individuals to join our team.</p>
+              <div className="no-openings-actions">
+                <p>Stay connected with us for future opportunities:</p>
+                <div className="contact-options">
+                  <a href="mailto:hr@talvyntechnologies.com" className="contact-btn primary">
+                    <Send className="w-4 h-4" />
+                    Send Your Resume
+                  </a>
+                  <button onClick={() => navigate('/')} className="contact-btn secondary">
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Home
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ) : filteredJobs.length > 0 ? filteredJobs.map((job, index) => (
             <motion.div
               key={index}
               className="job-card"

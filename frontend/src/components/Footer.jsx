@@ -77,7 +77,7 @@ const Footer = () => {
               </div>
               <div className="contact-item">
                 <Mail className="contact-icon" />
-                <span>hr@talvyntechnologies.com</span>
+                <span>contact@talvyntechnologies.com</span>
               </div>
               <div className="contact-item">
                 <Phone className="contact-icon" />
