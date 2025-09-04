@@ -52,7 +52,7 @@ const OurTeam = () => {
       expertise: 'Strategic Leadership, Business Development',
       email: 'aaron.a@talvyntechnologies.com',
       linkedin: 'https://www.linkedin.com/in/aaron-a-77ba65216/',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/aaron.jpg'
     },
     {
       name: 'Balaji',
@@ -61,7 +61,7 @@ const OurTeam = () => {
       expertise: 'Software Architecture, Cloud Technologies',
       email: 'balaji.p@talvyntechnologies.com',
       linkedin: 'https://www.linkedin.com/in/balaji-p-08963925b/',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616c3dc7bb3?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/balaji.jpg'
     },
     {
       name: 'Sveda Nagaraju',
@@ -70,7 +70,7 @@ const OurTeam = () => {
       expertise: 'Information Security, Risk Management',
       email: 'sveda.n@talvyntechnologies.com',
       linkedin: 'https://www.linkedin.com/in/sveda-nagaraju/',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/sveda.jpg'
     },
     {
       name: 'Sneha Reddy',
@@ -79,7 +79,7 @@ const OurTeam = () => {
       expertise: 'Full-Stack Development, Team Leadership',
       email: 'sneha@talvyntech.com',
       linkedin: '#',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/sneha.jpg'
     },
     {
       name: 'Vikram Singh',
@@ -88,7 +88,7 @@ const OurTeam = () => {
       expertise: 'Project Management, Business Operations',
       email: 'vikram@talvyntech.com',
       linkedin: '#',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/vikram.jpg'
     },
     {
       name: 'Ananya Gupta',
@@ -97,7 +97,7 @@ const OurTeam = () => {
       expertise: 'UI/UX Design, Product Strategy',
       email: 'ananya@talvyntech.com',
       linkedin: '#',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face'
+      image: '/photos/ananya.jpg'
     }
   ];
 
