@@ -67,30 +67,52 @@ class JobApplication(BaseModel):
 
 # Utility functions
 def send_email(to_email: str, subject: str, body: str, attachment_path: str = None, reply_to: str = None, from_name: str = None):
-    """Send email with optional attachment and reply-to"""
+    """Send email with improved delivery and spam prevention"""
     try:
         logger.info(f"Attempting to send email to {to_email}")
         logger.info(f"SMTP Server: {SMTP_SERVER}:{SMTP_PORT}")
         logger.info(f"SMTP Username: {SMTP_USERNAME}")
         
-        msg = MIMEMultipart()
+        msg = MIMEMultipart('related')
         
-        # Set From field properly (can't spoof sender with Outlook SMTP)
-        if from_name:
-            msg['From'] = f"{from_name} via HR <{SMTP_USERNAME}>"
-        else:
-            msg['From'] = SMTP_USERNAME
-            
+        # Improved headers for better deliverability
+        msg['From'] = f"Talvyn Technologies <{SMTP_USERNAME}>"
         msg['To'] = to_email
         msg['Subject'] = subject
+        msg['Message-ID'] = f"<{uuid.uuid4()}@talvyntechnologies.com>"
+        msg['Date'] = datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
         
-        # Add Reply-To header for consistency
+        # Add important headers for spam prevention
+        msg['X-Mailer'] = 'Talvyn Technologies Application v1.0'
+        msg['X-Priority'] = '3'
+        msg['Importance'] = 'Normal'
+        
         if reply_to:
             msg['Reply-To'] = reply_to
-            logger.info(f"Email will appear from: {msg['From']}")
             logger.info(f"Reply-To set to: {reply_to}")
         
-        msg.attach(MIMEText(body, 'html'))
+        # Create HTML body with better structure
+        html_body = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{subject}</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            {body}
+            <br>
+            <hr style="border: 1px solid #ddd; margin: 20px 0;">
+            <p style="font-size: 12px; color: #666;">
+                This email was sent from Talvyn Technologies contact system.<br>
+                If you did not expect this email, please ignore it.
+            </p>
+        </body>
+        </html>
+        """
+        
+        msg.attach(MIMEText(html_body, 'html', 'utf-8'))
         
         # Add attachment if provided
         if attachment_path and os.path.exists(attachment_path):
@@ -100,30 +122,57 @@ def send_email(to_email: str, subject: str, body: str, attachment_path: str = No
                 encoders.encode_base64(part)
                 part.add_header(
                     'Content-Disposition',
-                    f'attachment; filename= {os.path.basename(attachment_path)}'
+                    f'attachment; filename="{os.path.basename(attachment_path)}"'
                 )
                 msg.attach(part)
         
         logger.info("Connecting to SMTP server...")
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        # Disable debug output for production
-        # server.set_debuglevel(1)
         
-        logger.info("Starting TLS...")
-        server.starttls()
+        # Try different connection methods for better AWS compatibility
+        try:
+            # Primary method - SMTP with STARTTLS
+            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
+            server.starttls()
+        except:
+            # Fallback method - SMTP_SSL
+            try:
+                server = smtplib.SMTP_SSL(SMTP_SERVER, 465, timeout=30)
+            except:
+                # Final fallback
+                server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
+                server.starttls()
         
         logger.info("Attempting login...")
         server.login(SMTP_USERNAME, SMTP_PASSWORD)
         
         logger.info("Sending message...")
-        server.send_message(msg)
+        # Use send_message for better header handling
+        refused = server.send_message(msg)
+        
+        if refused:
+            logger.warning(f"Some recipients were refused: {refused}")
+        
         server.quit()
         
         logger.info(f"Email sent successfully to {to_email}")
+        
+        # Add delay to prevent rate limiting
+        import time
+        time.sleep(1)
+        
         return True
         
+    except smtplib.SMTPRecipientsRefused as e:
+        logger.error(f"Recipients refused for {to_email}: {str(e)}")
+        logger.error("Check if recipient email address is valid")
+        return False
     except smtplib.SMTPAuthenticationError as e:
         logger.error(f"SMTP Authentication failed for {to_email}: {str(e)}")
+        logger.error("Check SMTP credentials and app password")
+        return False
+    except smtplib.SMTPDataError as e:
+        logger.error(f"SMTP Data error for {to_email}: {str(e)}")
+        logger.error("Email content may be rejected as spam")
         return False
     except smtplib.SMTPException as e:
         logger.error(f"SMTP error sending email to {to_email}: {str(e)}")
@@ -456,6 +505,7 @@ async def submit_contact_form(contact: ContactForm):
 async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -46,7 +46,7 @@ const OurTeam = () => {
 
   const teamMembers = [
     {
-      name: 'Aaron',
+      name: 'Aaron A',
       position: 'Chief Executive Officer',
       experience: '2+ years',
       expertise: 'Strategic Leadership, Business Development',
@@ -55,8 +55,8 @@ const OurTeam = () => {
       image: '/photos/aaron.jpg'
     },
     {
-      name: 'Balaji',
-      position: 'Chief Technology Officer',
+      name: 'Balaji P',
+      position: 'Managing Director',
       experience: '2+ years',
       expertise: 'Software Architecture, Cloud Technologies',
       email: 'balaji.p@talvyntechnologies.com',
@@ -64,41 +64,41 @@ const OurTeam = () => {
       image: '/photos/balaji.jpg'
     },
     {
-      name: 'Sveda Nagaraju',
-      position: 'HR Manager',
+      name: 'Sveda Nagaraju N',
+      position: 'Head of Human Resource',
       experience: '2+ years',
       expertise: 'Information Security, Risk Management',
       email: 'sveda.n@talvyntechnologies.com',
       linkedin: 'https://www.linkedin.com/in/sveda-nagaraju/',
       image: '/photos/sveda.jpg'
-    },
-    {
-      name: 'Sneha Reddy',
-      position: 'Head of Development',
-      experience: '8+ years',
-      expertise: 'Full-Stack Development, Team Leadership',
-      email: 'sneha@talvyntech.com',
-      linkedin: '#',
-      image: '/photos/sneha.jpg'
-    },
-    {
-      name: 'Vikram Singh',
-      position: 'Head of Operations',
-      experience: '11+ years',
-      expertise: 'Project Management, Business Operations',
-      email: 'vikram@talvyntech.com',
-      linkedin: '#',
-      image: '/photos/vikram.jpg'
-    },
-    {
-      name: 'Ananya Gupta',
-      position: 'Head of Design',
-      experience: '7+ years',
-      expertise: 'UI/UX Design, Product Strategy',
-      email: 'ananya@talvyntech.com',
-      linkedin: '#',
-      image: '/photos/ananya.jpg'
     }
+    // {
+    //   name: 'Vaishnavi',
+    //   position: 'Head of Development',
+    //   experience: '2+ years',
+    //   expertise: 'Full-Stack Development, Team Leadership',
+    //   email: 'vaishnavi@',
+    //   linkedin: '#',
+    //   image: '/photos/sneha.jpg'
+    // },
+    // {
+    //   name: 'Vikram Singh',
+    //   position: 'Head of Operations',
+    //   experience: '11+ years',
+    //   expertise: 'Project Management, Business Operations',
+    //   email: 'vikram@talvyntech.com',
+    //   linkedin: '#',
+    //   image: '/photos/vikram.jpg'
+    // },
+    // {
+    //   name: 'Ananya Gupta',
+    //   position: 'Head of Design',
+    //   experience: '7+ years',
+    //   expertise: 'UI/UX Design, Product Strategy',
+    //   email: 'ananya@talvyntech.com',
+    //   linkedin: '#',
+    //   image: '/photos/ananya.jpg'
+    // }
   ];
 
   const teamStats = [
